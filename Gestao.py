@@ -1,6 +1,24 @@
 import streamlit as st
 from database import *
 
+# Inicializa banco
+criar_tabela()
+
+# Configuração da página
+st.set_page_config(page_title="Controle de Estoque", page_icon="📦", layout="centered")
+st.title("📦 Sistema de Controle de Estoque")
+
+menu = [
+    "Cadastrar Produto",
+    "Listar Produtos",
+    "Buscar Produto",
+    "Entrada de Estoque",
+    "Saída de Estoque",
+    "Excluir Produto",
+    "Alerta de Estoque Baixo"
+]
+opcao = st.sidebar.selectbox("Menu", menu)
+
 # --- SISTEMA DE SENHA ---
 senha_correta = "admin"
 
@@ -27,24 +45,6 @@ st.sidebar.button("Sair", on_click=lambda: logout())
 def logout():
     st.session_state.autenticado = False
     st.experimental_rerun()
-
-# Inicializa banco
-criar_tabela()
-
-# Configuração da página
-st.set_page_config(page_title="Controle de Estoque", page_icon="📦", layout="centered")
-st.title("📦 Sistema de Controle de Estoque")
-
-menu = [
-    "Cadastrar Produto",
-    "Listar Produtos",
-    "Buscar Produto",
-    "Entrada de Estoque",
-    "Saída de Estoque",
-    "Excluir Produto",
-    "Alerta de Estoque Baixo"
-]
-opcao = st.sidebar.selectbox("Menu", menu)
 
 # --- CADASTRAR PRODUTO ---
 if opcao == "Cadastrar Produto":
