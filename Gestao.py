@@ -15,25 +15,24 @@ if "autenticado" not in st.session_state:
 
 if not st.session_state.autenticado:
     st.title("🔒 Acesso Restrito")
-
     senha = st.text_input("Digite a senha:", type="password")
 
     if st.button("Entrar"):
         if senha == senha_correta:
             st.session_state.autenticado = True
-            st.experimental_rerun()
+            st.rerun()
         else:
             st.error("❌ Senha incorreta!")
 
     st.stop()
 
 # --- BOTÃO DE SAIR ---
-st.sidebar.button("Sair", on_click=lambda: logout())
-
 def logout():
     st.session_state.autenticado = False
-    st.experimental_rerun()
-    
+    st.rerun()
+
+st.sidebar.button("Sair", on_click=logout)
+
 # -- Configuração da página 2
 st.title("📦 Sistema de Controle de Estoque")
 
