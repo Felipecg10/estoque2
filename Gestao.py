@@ -6,24 +6,32 @@ from database import *
 # Inicializa banco
 criar_tabela()
 
-# --- SISTEMA DE SENHA ---
-senha_correta = "admin"
+senha_correta = "admin"  # ajuste sua senha
 
+# Estado inicial
 if "autenticado" not in st.session_state:
     st.session_state.autenticado = False
 
+# Tela de login
 if not st.session_state.autenticado:
+
     st.title("🔒 Acesso Restrito")
     senha = st.text_input("Digite a senha:", type="password")
 
+    # O botão só muda o estado, sem rerun!
     if st.button("Entrar"):
         if senha == senha_correta:
             st.session_state.autenticado = True
-            st.rerun()
+            st.session_state.forcar_rerun = True
         else:
             st.error("❌ Senha incorreta!")
 
-    st.stop()
+    # Aqui fora o rerun funciona corretamente
+    if st.session_state.get("forcar_rerun"):
+        st.session_state.forcar_rerun = False
+        st.rerun()
+
+    st.stop()  # impede o resto do app de carregar
 
 # --- BOTÃO DE SAIR ---
 def logout():
