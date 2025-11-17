@@ -4,11 +4,21 @@ from pathlib import Path
 # Caminho absoluto da pasta onde este arquivo está
 BASE_DIR = Path(__file__).parent.resolve()
 
-# Caminho completo do banco
-DB_PATH = BASE_DIR / "estoque.db"
+# Pasta 'data' onde o banco de dados vai ficar
+DATA_DIR = BASE_DIR / "data"
+DATA_DIR.mkdir(exist_ok=True)  # cria a pasta se não existir
+
+# Caminho completo para o arquivo do banco
+DB_PATH = DATA_DIR / "estoque.db"
+
+
+# 2) FUNÇÃO DE CONEXÃO
 
 def conectar():
     return sqlite3.connect(DB_PATH)
+
+
+# 3) CRIAÇÃO DA TABELA
 
 def criar_tabela():
     conexao = conectar()
@@ -25,18 +35,20 @@ def criar_tabela():
     conexao.commit()
     conexao.close()
 
-# Adiciona novo produto
+
+# 4) FUNÇÕES DE CRUD
+
 def adicionar_produto(nome, quantidade_estoque, quantidade_minima, fornecedor):
     conexao = conectar()
     cursor = conexao.cursor()
-    cursor.execute(
-        "INSERT INTO produtos (nome, quantidade_estoque, quantidade_minima, fornecedor) VALUES (?, ?, ?, ?)",
-        (nome, quantidade_estoque, quantidade_minima, fornecedor)
-    )
+    cursor.execute("""
+        INSERT INTO produtos (nome, quantidade_estoque, quantidade_minima, fornecedor)
+        VALUES (?, ?, ?, ?)
+    """, (nome, quantidade_estoque, quantidade_minima, fornecedor))
     conexao.commit()
     conexao.close()
 
-# Lista todos os produtos
+
 def listar_produtos():
     conexao = conectar()
     cursor = conexao.cursor()
@@ -45,7 +57,7 @@ def listar_produtos():
     conexao.close()
     return produtos
 
-# Busca produto por nome
+
 def buscar_produto(nome):
     conexao = conectar()
     cursor = conexao.cursor()
@@ -54,7 +66,7 @@ def buscar_produto(nome):
     conexao.close()
     return resultados
 
-# Deleta produto
+
 def deletar_produto(id_produto):
     conexao = conectar()
     cursor = conexao.cursor()
@@ -62,18 +74,23 @@ def deletar_produto(id_produto):
     conexao.commit()
     conexao.close()
 
-# Atualiza quantidade (entrada ou saída)
+
+# 5) FUNÇÕES DE ESTOQUE
+
 def atualizar_estoque(id_produto, quantidade, operacao="entrada"):
     conexao = conectar()
     cursor = conexao.cursor()
-    # Busca quantidade atual
+
+    # Buscar quantidade atual
     cursor.execute("SELECT quantidade_estoque FROM produtos WHERE id = ?", (id_produto,))
     result = cursor.fetchone()
+
     if not result:
         conexao.close()
         return False  # produto não encontrado
 
     qtd_atual = result[0]
+
     if operacao == "entrada":
         nova_qtd = qtd_atual + quantidade
     elif operacao == "saida":
@@ -87,7 +104,7 @@ def atualizar_estoque(id_produto, quantidade, operacao="entrada"):
     conexao.close()
     return True
 
-# Lista produtos abaixo do estoque mínimo
+
 def produtos_abaixo_minimo():
     conexao = conectar()
     cursor = conexao.cursor()

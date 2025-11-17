@@ -1,11 +1,9 @@
 import streamlit as st
-from database import *
-
-# Configuração da página 1
 st.set_page_config(page_title="Controle de Estoque", page_icon="📦", layout="centered")
 
+from database import *
+
 # Inicializa banco
-st.write("Banco sendo criado em:", DB_PATH)
 criar_tabela()
 
 # --- SISTEMA DE SENHA ---
@@ -157,4 +155,3 @@ elif opcao == "Alerta de Estoque Baixo":
             st.error(f"⚠️ {p[1]} — Estoque: {p[2]} | Mínimo: {p[3]} | Fornecedor: {p[4]}")
     else:
         st.success("✅ Todos os produtos estão com estoque adequado.")
-
