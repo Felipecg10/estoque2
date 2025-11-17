@@ -1,12 +1,12 @@
 import streamlit as st
 from database import *
 
+# Configuração da página 1
+st.set_page_config(page_title="Controle de Estoque", page_icon="📦", layout="centered")
+
 # Inicializa banco
 st.write("Banco sendo criado em:", DB_PATH)
 criar_tabela()
-
-# Configuração da página 1
-st.set_page_config(page_title="Controle de Estoque", page_icon="📦", layout="centered")
 
 # --- SISTEMA DE SENHA ---
 senha_correta = "admin"
