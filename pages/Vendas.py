@@ -48,24 +48,51 @@ elif opcao == "Buscar Produto":
 
 # --- ENTRADA DE ESTOQUE ---
 elif opcao == "Entrada de Estoque":
-    st.subheader("📦 Entrada de Estoque")
-    id_produto = st.number_input("ID do produto", min_value=1, step=1)
-    quantidade = st.number_input("Quantidade a adicionar", min_value=1, step=1)
+    st.subheader("Registrar entrada de produtos")
 
-    if st.button("Adicionar ao estoque"):
-        if atualizar_estoque(id_produto, quantidade, "entrada"):
-            st.success(f"✅ {quantidade} unidades adicionadas ao estoque!")
-        else:
-            st.error("Produto não encontrado.")
+    # Carrega produtos
+    produtos = listar_produtos()
 
-# --- SAÍDA DE ESTOQUE ---
+    if produtos:
+        # Lista apenas nomes
+        nomes = [p[1] for p in produtos]
+        nome_escolhido = st.selectbox("Selecione o produto", nomes)
+
+        # Descobre o ID verdadeiro do produto selecionado
+        id_produto = None
+        for p in produtos:
+            if p[1] == nome_escolhido:
+                id_produto = p[0]
+                break
+
+        quantidade = st.number_input("Quantidade a adicionar", min_value=1, step=1)
+
+        if st.button("Adicionar ao estoque"):
+            if atualizar_estoque(id_produto, quantidade, "entrada"):
+                st.success(f"Entrada registrada para '{nome_escolhido}'!")
+            else:
+                st.error("Erro ao atualizar o estoque.")
+    else:
+        st.warning("Nenhum produto cadastrado.")
+
+# --- SAÍDA DE ESTOQUE (POR NOME) ---
 elif opcao == "Saída de Estoque":
-    st.subheader("📤 Saída de Estoque")
-    id_produto = st.number_input("ID do produto", min_value=1, step=1)
-    quantidade = st.number_input("Quantidade a remover", min_value=1, step=1)
+    st.subheader("Registrar saída de produtos")
 
-    if st.button("Remover do estoque"):
-        if atualizar_estoque(id_produto, quantidade, "saida"):
-            st.success(f"✅ {quantidade} unidades removidas do estoque!")
-        else:
-            st.error("Produto não encontrado.")
+    produtos = listar_produtos()
+
+    if produtos:
+        nomes = [p[1] for p in produtos]
+        nome_escolhido = st.selectbox("Selecione o produto", nomes)
+
+        id_produto = next((p[0] for p in produtos if p[1] == nome_escolhido), None)
+
+        quantidade = st.number_input("Quantidade a remover", min_value=1, step=1)
+
+        if st.button("Remover"):
+            if atualizar_estoque(id_produto, quantidade, "saida"):
+                st.success(f"Saída registrada: -{quantidade} em '{nome_escolhido}'")
+            else:
+                st.error("Erro ao atualizar o estoque.")
+    else:
+        st.warning("Nenhum produto cadastrado.")
