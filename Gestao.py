@@ -6,7 +6,7 @@ from database import *
 # Inicializa banco
 criar_tabela()
 
-senha_correta = "admin"  # ajuste sua senha
+senha_correta = "admin"  # senha
 
 # Estado inicial
 if "autenticado" not in st.session_state:
@@ -33,14 +33,14 @@ if not st.session_state.autenticado:
 
     st.stop()  # impede o resto do app de carregar
 
-# --- BOTÃO DE SAIR ---
+# BOTÃO DE SAIR
 def logout():
     st.session_state.autenticado = False
     st.rerun()
 
 st.sidebar.button("Sair", on_click=logout)
 
-# -- Configuração da página 2
+# Configuração da página
 st.title("📦 Sistema de Controle de Estoque")
 
 menu = [
@@ -54,7 +54,7 @@ menu = [
 ]
 opcao = st.sidebar.selectbox("Menu", menu)
 
-# --- CADASTRAR PRODUTO ---
+# CADASTRAR PRODUTO
 if opcao == "Cadastrar Produto":
     st.subheader("Adicionar novo produto")
     nome = st.text_input("Nome do produto")
@@ -69,7 +69,7 @@ if opcao == "Cadastrar Produto":
         else:
             st.warning("Preencha todos os campos obrigatórios.")
 
-# --- LISTAR PRODUTOS ---
+# LISTAR PRODUTOS
 elif opcao == "Listar Produtos":
     st.subheader("Lista de produtos cadastrados")
     produtos = listar_produtos()
@@ -81,7 +81,7 @@ elif opcao == "Listar Produtos":
     else:
         st.info("Nenhum produto cadastrado.")
 
-# --- BUSCAR PRODUTO ---
+# BUSCAR PRODUTO
 elif opcao == "Buscar Produto":
     st.subheader("Buscar produto por nome")
     termo = st.text_input("Digite parte do nome do produto")
@@ -94,7 +94,7 @@ elif opcao == "Buscar Produto":
         else:
             st.warning("Nenhum produto encontrado.")
 
-# --- ENTRADA DE ESTOQUE ---
+# ENTRADA DE ESTOQUE
 elif opcao == "Entrada de Estoque":
     st.subheader("Registrar entrada de produtos")
 
@@ -123,7 +123,7 @@ elif opcao == "Entrada de Estoque":
     else:
         st.warning("Nenhum produto cadastrado.")
 
-# --- SAÍDA DE ESTOQUE (POR NOME) ---
+# SAÍDA DE ESTOQUE (POR NOME)
 elif opcao == "Saída de Estoque":
     st.subheader("Registrar saída de produtos")
 
@@ -145,7 +145,7 @@ elif opcao == "Saída de Estoque":
     else:
         st.warning("Nenhum produto cadastrado.")
 
-# --- EXCLUIR PRODUTO ---
+# EXCLUIR PRODUTO
 elif opcao == "Excluir Produto":
     st.subheader("Excluir produto pelo ID")
     id_produto = st.number_input("Informe o ID do produto", min_value=1, step=1)
@@ -153,7 +153,7 @@ elif opcao == "Excluir Produto":
         deletar_produto(id_produto)
         st.success(f"Produto com ID {id_produto} excluído com sucesso!")
 
-# --- ALERTA DE ESTOQUE BAIXO ---
+# ALERTA DE ESTOQUE BAIXO
 elif opcao == "Alerta de Estoque Baixo":
     st.subheader("Produtos com estoque abaixo do mínimo")
     abaixo = produtos_abaixo_minimo()
@@ -163,3 +163,4 @@ elif opcao == "Alerta de Estoque Baixo":
             st.error(f"⚠️ {p[1]} — Estoque: {p[2]} | Mínimo: {p[3]} | Fornecedor: {p[4]}")
     else:
         st.success("✅ Todos os produtos estão com estoque adequado.")
+
