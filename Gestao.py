@@ -2,6 +2,7 @@ import streamlit as st
 from database import *
 
 # Inicializa banco
+st.write("Banco sendo criado em:", DB_PATH)
 criar_tabela()
 
 # Configuração da página 1

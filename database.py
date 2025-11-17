@@ -1,7 +1,14 @@
 import sqlite3
+from pathlib import Path
+
+# Caminho absoluto da pasta onde este arquivo está
+BASE_DIR = Path(__file__).parent.resolve()
+
+# Caminho completo do banco
+DB_PATH = BASE_DIR / "estoque.db"
 
 def conectar():
-    return sqlite3.connect("estoque.db")
+    return sqlite3.connect(DB_PATH)
 
 def criar_tabela():
     conexao = conectar()
