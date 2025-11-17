@@ -5,6 +5,7 @@ from database import *
 
 # Inicializa banco
 criar_tabela()
+st.sidebar.write("📁 Banco em uso:", DB_PATH)
 
 # --- SISTEMA DE SENHA ---
 senha_correta = "admin"
