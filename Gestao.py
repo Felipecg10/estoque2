@@ -102,3 +102,4 @@ elif opcao == "Alerta de Estoque Baixo":
     else:
         st.success("✅ Todos os produtos estão com estoque adequado.")
 
+
