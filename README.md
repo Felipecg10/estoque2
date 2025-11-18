@@ -1,6 +1,9 @@
 # estoque
-Link:
-<img width="192" height="192" alt="Design sem nome (1)" src="https://github.com/user-attachments/assets/a1514f71-23db-43e3-a733-001cc9bff3c6" />
+QR core:
+<img width="192" height="192" alt="Design sem nome" src="https://github.com/user-attachments/assets/a183186c-58f6-4795-8502-650cdb3e54c9" />
 
+
+Link:
 [https://trabalhoanchieta.streamlit.app/](https://trabalhoanchieta.streamlit.app/)
+
 
